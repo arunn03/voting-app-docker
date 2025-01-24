@@ -41,7 +41,7 @@ async.retry(
   }
 );
 
-var sec = 0;
+let sec = 0;
 function getVotes(client) {
   client.query('SELECT vote, COUNT(id) AS count FROM votes GROUP BY vote', [], function(err, result) {
     if (err) {
