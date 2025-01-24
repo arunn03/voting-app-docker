@@ -20,20 +20,30 @@ pipeline {
             steps {
                 
                 withSonarQubeEnv('sonarqube-server') {
-                    script {
-                        def sonarResult = sh(script: '''
-                            $SCANNER_HOME/bin/sonar-scanner \
-                            -Dsonar.java.binaries=**/*.java \
-                            -Dsonar.projectName=Voting-App \
-                            -Dsonar.projectKey=voting-app \
-                            -Dsonar.sources=. \
-                        ''', returnStatus: true)
+                    // script {
+                    //     def sonarResult = sh(script: '''
+                    //         $SCANNER_HOME/bin/sonar-scanner \
+                    //         -Dsonar.java.binaries=**/*.java \
+                    //         -Dsonar.projectName=Voting-App \
+                    //         -Dsonar.projectKey=voting-app \
+                    //         -Dsonar.sources=. \
+                    //     ''', returnStatus: true)
                         
-                        if (sonarResult != 0) {
-                            currentBuild.result = 'FAILURE'
-                            error("SonarQube analysis failed.")
-                        }
-                    }
+                    //     if (sonarResult != 0) {
+                    //         currentBuild.result = 'FAILURE'
+                    //         error("SonarQube analysis failed.")
+                    //     }
+                    // }
+
+                    sh '''
+                        $SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.qualitygate.wait=true \
+                        -Dsonar.qualitygate.timeout=300 \
+                        -Dsonar.java.binaries=**/*.java \
+                        -Dsonar.projectName=Voting-App \
+                        -Dsonar.projectKey=voting-app \
+                        -Dsonar.sources=. \
+                    '''
                 }
             }
         }
