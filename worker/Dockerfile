@@ -12,7 +12,7 @@ ARG BUILDPLATFORM=linux/amd64
 FROM --platform=${BUILDPLATFORM} mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG TARGETPLATFORM=linux/amd64
 ARG TARGETARCH=amd64
-# ARG BUILDPLATFORM
+ARG BUILDPLATFORM=linux/amd64
 RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
 
 WORKDIR /source
