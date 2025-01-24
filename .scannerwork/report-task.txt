@@ -1,0 +1,6 @@
+projectKey=voting-app
+serverUrl=http://localhost:9000
+serverVersion=25.1.0.102122
+dashboardUrl=http://localhost:9000/dashboard?id=voting-app
+ceTaskId=8174e83a-f559-4a63-bb81-b9681dc196f2
+ceTaskUrl=http://localhost:9000/api/ce/task?id=8174e83a-f559-4a63-bb81-b9681dc196f2

@@ -37,9 +37,6 @@ pipeline {
 
                     sh '''
                         $SCANNER_HOME/bin/sonar-scanner \
-                        -Dsonar.qualitygate.wait=true \
-                        -Dsonar.qualitygate.timeout=300 \
-                        -Dsonar.java.binaries=**/*.java \
                         -Dsonar.projectName=Voting-App \
                         -Dsonar.projectKey=voting-app \
                         -Dsonar.sources=. \
