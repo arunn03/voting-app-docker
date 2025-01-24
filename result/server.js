@@ -2,6 +2,7 @@ var express = require('express'),
     async = require('async'),
     { Pool } = require('pg'),
     cookieParser = require('cookie-parser'),
+    fs = require('fs'),
     app = express(),
     server = require('http').Server(app),
     io = require('socket.io')(server);
@@ -40,6 +41,7 @@ async.retry(
   }
 );
 
+var sec = 0;
 function getVotes(client) {
   client.query('SELECT vote, COUNT(id) AS count FROM votes GROUP BY vote', [], function(err, result) {
     if (err) {
@@ -47,7 +49,10 @@ function getVotes(client) {
     } else {
       var votes = collectVotesFromResult(result);
       io.sockets.emit("scores", JSON.stringify(votes));
+
+      if (!sec) writeVotesToFile(votes);
     }
+    sec = (sec+1) % 60;
 
     setTimeout(function() {getVotes(client) }, 1000);
   });
@@ -61,6 +66,20 @@ function collectVotesFromResult(result) {
   });
 
   return votes;
+}
+
+function writeVotesToFile(votes) {
+  const now = new Date();
+  const dateStr = now.toISOString().replace(/T/, '_').replace(/\..+/, '').replace(/:/g, '-');
+  const filename = `votes_${dateStr}.json`;
+  const votesJson = JSON.stringify(votes, null, 2);
+  fs.writeFile(__dirname + '/data/' + filename, votesJson, (err) => {
+    if (err) {
+      console.error('Error writing to file', err);
+    } else {
+      console.log(`votes.json has been saved as ${filename}`);
+    }
+  });
 }
 
 app.use(cookieParser());
