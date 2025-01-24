@@ -37,6 +37,7 @@ pipeline {
 
                     sh '''
                         $SCANNER_HOME/bin/sonar-scanner \
+			-Dsonar.java.binaries=**/*.java \
                         -Dsonar.projectName=Voting-App \
                         -Dsonar.projectKey=voting-app \
                         -Dsonar.sources=. \
