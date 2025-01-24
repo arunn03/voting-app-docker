@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/arunn03/voting-app-docker.git'
+                git branch: 'main', changelog: false, poll: true, url: 'https://github.com/arunn03/voting-app-docker.git'
             }
         }
         
