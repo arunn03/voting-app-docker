@@ -53,7 +53,7 @@ pipeline {
                 script {
                     // Set platform and architecture for the build
                     def arch = sh(script: 'uname -m', returnStdout: true).trim()
-                    if (arch == 'x86_64') {
+                    if (arch == 'x86_64' || arch == 'amd64') {
                         sh '''
                             docker build -t worker-app \
                                 --build-arg BUILDPLATFORM=linux/amd64 \
@@ -61,7 +61,7 @@ pipeline {
                                 --build-arg TARGETARCH=amd64 \
                                 ${WORKSPACE}/worker/
                         '''
-                    } else if (arch == 'aarch64') {
+                    } else if (arch == 'aarch64' || arch == 'arm64') {
                         sh '''
                             docker build -t worker-app \
                                 --build-arg BUILDPLATFORM=linux/arm64 \
